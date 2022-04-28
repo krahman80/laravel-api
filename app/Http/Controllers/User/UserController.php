@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UsersResource;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\UsersCollection;
 
 class UserController extends Controller
 {
@@ -14,7 +19,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        // $users = User::jsonPaginate();
+        $users = QueryBuilder::for(User::class)
+                ->allowedFilters(['name', 'email'])
+                ->allowedSorts('name', 'email')
+                ->jsonPaginate();
+                
+        // return UsersResource::collection($users);
+        return new UsersCollection($users);
     }
 
 
@@ -26,7 +38,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->input('data.attributes.name'),
+            'email' => $request->input('data.attributes.email'),
+            'password' => bcrypt('secret'),
+            'remember_token' => Str::random(10),
+            'verified' => 0,
+            'verification_token' => null,
+            'admin' => 'false',
+        ]);
+
+        return (new UsersResource($user))->response()->header('Location', route('users.show', ['user' => $user]));
+
     }
 
     /**
@@ -35,9 +58,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return new UsersResource($user);
     }
 
     /**
@@ -47,9 +70,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->update($request->input('data.attributes'));
+        return new UsersResource($user);
     }
 
     /**
@@ -58,8 +82,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response(null, 204);
     }
 }

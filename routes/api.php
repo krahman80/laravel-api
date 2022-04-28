@@ -1,11 +1,8 @@
 <?php
 
+
 use Illuminate\Http\Request;
-use Buyer\BuyerController;
-use Category\CategoryController;
-use Seller\SellerController;
-use Product\ProductController;
-use Transaction\TransactionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +15,20 @@ use Transaction\TransactionController;
 |
 */
 
-Route::resource('buyers', BuyerController::class)->only(['index', 'show']);
+Route::prefix('v1')->group(function() {
 
-Route::resource('categories', CategoryController::class)->except(['create','edit']);
+    Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
 
-Route::resource('products',ProductController::class)->only(['index', 'show']);
+    Route::apiResource('categories', 'Category\CategoryController');
+    
+    Route::apiResource('products','Product\ProductController')->only(['index', 'show']);
+    
+    Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
+    
+    Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
+    
+    Route::apiResource('users', 'User\UserController');
 
-Route::resource('sellers', SellerController::class)->only(['index', 'show']);
+});
 
-Route::resource('transactions', TransactionController::class)->only(['index', 'show']);
 
-Route::resource('users', 'User\UserController')->except(['create', 'edit']);
