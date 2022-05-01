@@ -5,7 +5,7 @@ use App\transactios;
 
 class Buyer extends User
 {
-    public function transactios() {
+    public function transactions() {
         return $this->hasMany(Transaction::class);
     }
 }

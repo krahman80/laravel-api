@@ -15,20 +15,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::prefix('v1')->group(function() {
 
-    Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
+Route::apiResource('users', 'User\UserController');
 
-    Route::apiResource('categories', 'Category\CategoryController');
-    
-    Route::apiResource('products','Product\ProductController')->only(['index', 'show']);
-    
-    Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
-    
-    Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
-    
-    Route::apiResource('users', 'User\UserController');
+Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
 
-});
+// Route::get('buyers/{id}/transaction', 'Buyer\BuyerTransactionController@index')->name('buyer.transactions.index');
+
+Route::apiResource('categories', 'Category\CategoryController');
+
+Route::apiResource('products','Product\ProductController')->only(['index', 'show']);
+
+Route::apiResource('sellers', 'Seller\SellerController')->only(['index', 'show']);
+
+Route::apiResource('transactions', 'Transaction\TransactionController')->only(['index', 'show']);
 
 
