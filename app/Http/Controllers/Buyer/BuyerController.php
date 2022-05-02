@@ -15,7 +15,8 @@ class BuyerController extends Controller
     {
         // http://localhost/api/v1/buyers?sort=name&page[number]=1
         
-        $buyers = QueryBuilder::for(Buyer::class)->allowedIncludes(['transactions.product'])
+        $buyers = QueryBuilder::for(Buyer::class)
+                ->allowedIncludes(['transactions.product'])
                 ->allowedFilters(['name', 'email'])
                 ->allowedSorts('name', 'email')
                 ->jsonPaginate();
@@ -27,7 +28,9 @@ class BuyerController extends Controller
     {
         // http://localhost/api/v1/buyers/15
         
-        $buyer = QueryBuilder::for(Buyer::class)->allowedIncludes(['transactions.product'])->findOrFail($id);
+        $buyer = QueryBuilder::for(Buyer::class)
+                ->allowedIncludes(['transactions.product'])
+                ->findOrFail($id);
                 
         return new BuyerResource($buyer);
 

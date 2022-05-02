@@ -91,6 +91,9 @@ class Handler extends ExceptionHandler
         $response = [];
 
         switch ($statusCode) {
+            case 400;
+                $response['message'] = 'Invalid syntax could not process an API request';
+                break;
             case 401:
                 $response['message'] = 'Unauthorized';
                 break;

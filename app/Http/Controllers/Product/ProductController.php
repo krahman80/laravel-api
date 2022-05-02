@@ -17,10 +17,12 @@ class ProductController extends Controller
      */
     public function index()
     {
+        // https://localhost/api/products?sort=status&page[number]=1
+        
         $products = QueryBuilder::for(Product::class)->allowedIncludes(['seller'])
-        ->allowedFilters(['name', 'status'])
-        ->allowedSorts('name', 'status')
-        ->paginate();
+                ->allowedFilters(['name', 'status'])
+                ->allowedSorts('name', 'status')
+                ->paginate();
 
         return ProductResource::collection($products);
     }
@@ -34,8 +36,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = QueryBuilder::for(Product::class)->allowedIncludes(['seller'])
-        ->findOrFail($id);
+        // https://localhost/api/products/4?include=seller
+
+        $product = QueryBuilder::for(Product::class)
+                ->allowedIncludes(['seller'])
+                ->findOrFail($id);
 
         return new ProductResource($product);
     }
