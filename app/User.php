@@ -6,10 +6,12 @@ use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     const VERIFIED_USER = '1';
     const UNVERIFIED_USER = '0';
@@ -29,7 +31,7 @@ class User extends Authenticatable
         'email', 
         'password', 
         'verified', 
-        'verification_token', 
+        // 'verification_token', 
         'admin',
     ];
 
@@ -41,7 +43,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 
         'remember_token', 
-        'verification_token'
+        // 'verification_token'
     ];
 
     /**
@@ -61,7 +63,7 @@ class User extends Authenticatable
         return $this->admin == self::ADMIN_USER;
     }
 
-    public static function generateVerificationCode() {
-        return Str::random(40);
-    }
+    // public static function generateVerificationCode() {
+    //     return Str::random(40);
+    // }
 }

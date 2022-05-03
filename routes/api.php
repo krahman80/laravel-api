@@ -14,9 +14,20 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+// Protected api
 
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    
+    Route::post('logout', 'Auth\AuthController@logout')->name('logout');
 
-Route::apiResource('users', 'User\UserController');
+    Route::apiResource('users', 'User\UserController');
+});
+
+// Public api
+
+Route::post('login', 'Auth\AuthController@login')->name('login');
+
+Route::post('register', 'Auth\AuthController@register')->name('register');
 
 Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
 
