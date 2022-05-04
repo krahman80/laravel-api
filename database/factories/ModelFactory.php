@@ -27,6 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(Category::class, function (Faker $faker) {
     return [
+        'id' => Str::uuid(),
         'name' => $faker->word,
         'description' => $faker->paragraph(1),
     ];
