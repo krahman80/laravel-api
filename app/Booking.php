@@ -12,4 +12,9 @@ class Booking extends Model
     public function place() {
         return $this->belongsTo(Booking::class);
     }
+
+    public function review() {
+        return $this->hasOne(Review::class);
+    }
+    
 }
