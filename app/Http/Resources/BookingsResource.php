@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\PlacesResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookingsResource extends JsonResource
@@ -18,6 +19,8 @@ class BookingsResource extends JsonResource
             'id' => (string)$this->id,
             'from' => $this->from,
             'to' => $this->to,
+            // 'place_id' => (string)$this->place_id,
+            'place' => new PlacesResource($this->whenLoaded('place')),
         ];
     }
 }

@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/places', 'Api\PlaceController');
-
+Route::apiResource('/bookings', 'Api\BookingController');

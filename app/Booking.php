@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     
-    protected $fillable = ['from', 'to'];
+    protected $fillable = ['from', 'to', 'place_id'];
     
     public function place() {
-        return $this->belongsTo(Booking::class);
+        return $this->belongsTo(Place::class);
     }
 
     public function review() {
