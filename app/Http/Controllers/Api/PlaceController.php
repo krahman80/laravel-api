@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\PlacesResource;
+use Illuminate\Validation\ValidationException;
 
 class PlaceController extends Controller
 {
@@ -30,15 +31,30 @@ class PlaceController extends Controller
     }
 
     public function store(Request $request){
-        $place = Place::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description')
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'required'
         ]);
+        
+        $place = Place::create($data);
         return new PlacesResource($place);
     }
 
     public function update(Request $request, Place $place) {        
-        $place->update($request->input());
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        // $place->update($data);
+        // return new PlacesResource($place);
+
+        $place->fill($data);
+
+        if (!$place->isDirty()) {
+            return response()->json(['error' => 'input different value'], 422);
+        }
+        $place->save();
         return new PlacesResource($place);
     } 
 

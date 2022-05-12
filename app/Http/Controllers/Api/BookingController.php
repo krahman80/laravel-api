@@ -31,7 +31,13 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        $booking = Booking::create($request->input());
+        $data = $request->validate([
+            'from' => 'required|date_format:Y-m-d|after_or_equal:now',
+            'to' => 'required|date_format:Y-m-d|after_or_equal:from',
+            'place_id' => 'required|integer'
+        ]);
+        
+        $booking = Booking::create($data);
         // $booking = Booking::create($request->all());
         return new BookingsResource($booking);
     }
@@ -61,10 +67,16 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'from' => 'required|date_format:Y-m-d|after_or_equal:now',
+            'to' => 'required|date_format:Y-m-d|after_or_equal:from',
+            'place_id' => 'required|integer'
+        ]);
+        
         $booking = Booking::findOrFail($id);
-        $booking->from = $request->input('from');
-        $booking->to = $request->input('to');
-        $booking->place_id = $request->input('place_id');
+        $booking->from = $data['from'];
+        $booking->to = $data['to'];
+        $booking->place_id = $data['place_id'];
         $booking->save();
 
         return new BookingsResource($booking);
