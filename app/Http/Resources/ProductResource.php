@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ProductSellerResource;
+use App\Http\Resources\SellerResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -30,7 +30,7 @@ class ProductResource extends JsonResource
             'quantity' => $this->quantity,
             'status' => $this->status,
             'image' => $this->image,
-            'seller' => new ProductSellerResource($this->whenLoaded('seller')),
+            'seller' => new SellerResource($this->whenLoaded('seller')),
         ];
     }
 }

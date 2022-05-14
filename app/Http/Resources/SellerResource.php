@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\SellerProductResource;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SellerResource extends JsonResource
@@ -19,7 +19,7 @@ class SellerResource extends JsonResource
             'id' => (string)$this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'products' => SellerProductResource::collection($this->whenLoaded('products')),
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }
