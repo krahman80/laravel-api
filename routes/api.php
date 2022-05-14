@@ -19,8 +19,11 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:sanctum'], function() {
     
     Route::post('logout', 'Auth\AuthController@logout')->name('logout');
-
+    
     Route::apiResource('users', 'User\UserController');
+
+    Route::get('buyers/{id}/transactions', 'Buyer\BuyerTransactionController@index')->name('buyer.transaction');
+
 });
 
 // Public api
@@ -30,8 +33,6 @@ Route::post('login', 'Auth\AuthController@login')->name('login');
 Route::post('register', 'Auth\AuthController@register')->name('register');
 
 Route::apiResource('buyers', 'Buyer\BuyerController')->only(['index', 'show']);
-
-// Route::get('buyers/{id}/transaction', 'Buyer\BuyerTransactionController@index')->name('buyer.transactions.index');
 
 Route::apiResource('categories', 'Category\CategoryController');
 

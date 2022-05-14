@@ -13,10 +13,10 @@ class BuyerController extends Controller
 
     public function index()
     {
-        // http://localhost/api/v1/buyers?sort=name&page[number]=1
+        // http://localhost/api/buyers?sort=name&page[number]=1
         
         $buyers = QueryBuilder::for(Buyer::class)
-                ->allowedIncludes(['transactions.product'])
+                // ->allowedIncludes(['transactions.product'])
                 ->allowedFilters(['name', 'email'])
                 ->allowedSorts('name', 'email')
                 ->jsonPaginate();
@@ -26,10 +26,10 @@ class BuyerController extends Controller
 
     public function show($id)
     {
-        // http://localhost/api/v1/buyers/15
+        // http://localhost/api/buyers/15
         
         $buyer = QueryBuilder::for(Buyer::class)
-                ->allowedIncludes(['transactions.product'])
+                // ->allowedIncludes(['transactions.product'])
                 ->findOrFail($id);
                 
         return new BuyerResource($buyer);
